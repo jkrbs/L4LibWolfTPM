@@ -1,4 +1,4 @@
-/* options.h.in
+/* seal.h
  *
  * Copyright (C) 2006-2021 wolfSSL Inc.
  *
@@ -16,25 +16,21 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335, USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
-
-/* default blank options for autoconf */
-
-#ifndef WOLFTPM_OPTIONS_H
-#define WOLFTPM_OPTIONS_H
-
+#ifndef _SEAL_H_
+#define _SEAL_H_
 
 #ifdef __cplusplus
-extern "C" {
+    extern "C" {
 #endif
 
-#define WOLFTPM2_NO_WOLFCRYPT
-#define DEBUG_WOLFTPM
+int TPM2_Seal_Example(void* userCtx, int argc, char *argv[]);
+int TPM2_Unseal_Example(void* userCtx, int argc, char *argv[]);
+
 #ifdef __cplusplus
-}
+    }  /* extern "C" */
 #endif
 
-
-#endif /* WOLFTPM_OPTIONS_H */
+#endif /* _SEAL_H_ */

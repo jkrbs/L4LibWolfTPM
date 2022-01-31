@@ -48,12 +48,11 @@
 #define WOLFTPM_INCLUDE_IO_FILE
 #include "tpm_io_l4.cc"
 
-#if !defined(WOLFTPM_I2C)
 static int TPM2_IoCb_SPI(TPM2_CTX *ctx, const byte *txBuf, byte *rxBuf,
                          word16 xferSz, void *userCtx) {
   int ret = TPM_RC_FAILURE;
 
-  ret = TPM2_IoCb_Barebox_SPI(ctx, txBuf, rxBuf, xferSz, userCtx);
+  ret = TPM2_IoCb_L4_SPI(ctx, txBuf, rxBuf, xferSz, userCtx);
 
   (void)txBuf;
   (void)rxBuf;
@@ -64,7 +63,6 @@ static int TPM2_IoCb_SPI(TPM2_CTX *ctx, const byte *txBuf, byte *rxBuf,
 
   return ret;
 }
-#endif /* !WOLFTPM_I2C */
 
 #ifdef WOLFTPM_ADV_IO
 int TPM2_IoCb(TPM2_CTX *ctx, int isRead, word32 addr, byte *buf, word16 size,
@@ -141,10 +139,11 @@ int TPM2_IoCb(TPM2_CTX *ctx, const byte *txBuf, byte *rxBuf, word16 xferSz,
   int ret = TPM_RC_FAILURE;
 
   ret = TPM2_IoCb_SPI(ctx, txBuf, rxBuf, xferSz, userCtx);
+  #ifdef WOLFTPM_DEBUG
   printf("TPM2_IoCb: Ret %d, Sz %d\n", ret, xferSz);
   TPM2_PrintBin(txBuf, xferSz);
   TPM2_PrintBin(rxBuf, xferSz);
-
+  #endif
   (void)ctx;
 
   return ret;

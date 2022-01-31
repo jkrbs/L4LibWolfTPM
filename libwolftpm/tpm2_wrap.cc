@@ -23,7 +23,6 @@
 #include "wolftpm/tpm2_param_enc.h"
 
 #ifndef WOLFTPM2_NO_WRAPPER
-#define DEBUG_WOLFTPM
 
 /* For some struct to buffer conversions */
 #include "wolftpm/tpm2_packet.h"
@@ -52,7 +51,6 @@ static void wolfTPM2_CopyNvPublic(TPMS_NV_PUBLIC *out,
 /* --- BEGIN Wrapper Device Functions -- */
 /******************************************************************************/
 
-#define DEBUG_WOLFTPM
 static int wolfTPM2_Init_ex(TPM2_CTX *ctx, TPM2HalIoCb ioCb, void *userCtx,
                             int timeoutTries) {
   int rc;

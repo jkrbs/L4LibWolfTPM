@@ -233,8 +233,10 @@ int TPM2_TIS_StartupWait(TPM2_CTX *ctx, int timeout) {
   do {
     rc = TPM2_TIS_Read(ctx, TPM_ACCESS(0), &access, sizeof(access));
     /* if chip isn't present MISO will be high and return 0xFF */
+    #ifdef WOLFTPM_DEBUG
     printf("reading status: read: %x, ACCESS VALID: %x\n", access,
            TPM_ACCESS_VALID);
+    #endif
     if (rc == TPM_RC_SUCCESS && (access & TPM_ACCESS_VALID) &&
         (access != 0xFF)) {
       return TPM_RC_SUCCESS;

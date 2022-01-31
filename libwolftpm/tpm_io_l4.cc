@@ -38,25 +38,24 @@
 
 extern L4::Cap<SPI> spi;
 
-int TPM2_IoCb_Barebox_SPI(TPM2_CTX *ctx, const byte *txBuf, byte *rxBuf,
+int TPM2_IoCb_L4_SPI(TPM2_CTX *ctx, const byte *txBuf, byte *rxBuf,
                           word16 xferSz, void *userCtx) {
 
-  // XMEMSET(&spi, 0, sizeof(spi));
-  // spi.master = spi_get_master(bus);   /* get bus 0 master */
-  // spi.max_speed_hz = 1 * 1000 * 1000; /* 1 MHz */
-  // spi.mode = 0;                       /* Mode 0 (CPOL=0, CPHA=0) */
-  // spi.bits_per_word = 8;              /* 8-bits */
-  // spi.chip_select = 0;                /* Use CS 0 */
-  const unsigned char* t = reinterpret_cast<const unsigned char*>(txBuf);
-  unsigned char* r = reinterpret_cast<unsigned char*>(rxBuf);
-  L4::Ipc::Array<const l4_uint8_t, l4_uint32_t> send = L4::Ipc::Array<const l4_uint8_t, l4_uint32_t>(xferSz, t);
-  L4::Ipc::Array<l4_uint8_t, l4_uint32_t> recv = L4::Ipc::Array<l4_uint8_t, l4_uint32_t>(xferSz, r);
+  L4::Ipc::Array<const l4_uint8_t, l4_uint32_t> send = 
+      L4::Ipc::Array<const l4_uint8_t, l4_uint32_t>(xferSz,
+                                                    static_cast<const unsigned char*>(txBuf));
+  L4::Ipc::Array<l4_uint8_t, l4_uint32_t> recv = 
+      L4::Ipc::Array<l4_uint8_t, l4_uint32_t>(xferSz, 
+                                              static_cast<unsigned char*>(rxBuf));
+
   int ret = spi->transfer(send, recv, xferSz);
+  
   if (ret != L4_EOK)
     return TPM_RC_FAILURE;
-
+  
+  #ifdef DEBUG
   printf("txbuf %x rxbuf %x xfersize %d\n", txBuf, txBuf, xferSz);
-
+  #endif
   return TPM_RC_SUCCESS;
 }
 

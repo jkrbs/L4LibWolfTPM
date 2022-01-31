@@ -1,4 +1,4 @@
-/* quote.h
+/* options.h.in
  *
  * Copyright (C) 2006-2021 wolfSSL Inc.
  *
@@ -16,20 +16,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335, USA
  */
 
-#ifndef _QUOTE_H_
-#define _QUOTE_H_
+
+/* default blank options for autoconf */
+
+#ifndef WOLFTPM_OPTIONS_H
+#define WOLFTPM_OPTIONS_H
+
 
 #ifdef __cplusplus
-    extern "C" {
+extern "C" {
 #endif
 
-int TPM2_Quote_Test(void* userCtx, int argc, char *argv[]);
-
+#define WOLFTPM2_NO_WOLFCRYPT
 #ifdef __cplusplus
-    }  /* extern "C" */
+}
 #endif
 
-#endif /* _QUOTE_H_ */
+
+#endif /* WOLFTPM_OPTIONS_H */
